@@ -19,4 +19,4 @@
 
 include_recipe "hadoop"
 
-package "pig"
+package "hadoop-pig"

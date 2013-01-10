@@ -57,10 +57,17 @@ in a define.
 
 [1] http://hadoop.apache.org/core/docs/current/quickstart.html
 
+Recipes
+=======
+
+  * hadoop
+  * hadoop::pig
+
 License and Author
 ==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
+		 Modified by Inigo Gonzalez ( http://exocert.com )
 
 Copyright:: 2009, Opscode, Inc
 
