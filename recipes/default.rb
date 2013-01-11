@@ -23,15 +23,17 @@ execute "apt-get update" do
   action :nothing
 end
 
-template "/etc/apt/sources.list.d/cloudera.list" do
-  owner "root"
-  mode "0644"
-  source "cloudera.list.erb"
-  notifies :run, resources("execute[apt-get update]"), :immediately
-end
+# Nothing to do here. CDH4 installs this automatically
+#template "/etc/apt/sources.list.d/cloudera.list" do
+#  owner "root"
+#  mode "0644"
+#  source "cloudera.list.erb"
+#  notifies :run, resources("execute[apt-get update]"), :immediately
+#end
 
-execute "curl -s http://archive.cloudera.com/debian/archive.key | apt-key add -" do
-  not_if "apt-key export 'Cloudera Apt Repository'"
+# Download and install the cd4h-repository package	
+execute "curl -s http://archive.cloudera.com/cdh4/one-click-install/lucid/amd64/cdh4-repository_1.0_all.deb > cd4rep.deb ; dpkg -i cd4rep.deb" do
+  not_if "apt-key export 'Cloudera Apt Repository'" 
 end
 
 package "hadoop"
