@@ -60,9 +60,11 @@ in a define.
 Recipes
 =======
 
-  * hadoop
-  * hadoop::pig
-
+  * hadoop - Installs hadoop from Cloudera's repo
+  * hadoop::conf_pseudo - Installs hadoop-conf-pseudo and enables hadoop services
+  * hadoop::doc  - Installs hadoop documentation
+  * hadoop::hive - Installs hadoop's hive package
+  * hadoop::pig  - Installs hadoop's pig package
 License and Author
 ==================
 
