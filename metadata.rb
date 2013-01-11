@@ -8,7 +8,7 @@ version           "0.8.1"
 depends           "java"
 
 recipe "hadoop", "Installs hadoop from Cloudera's repo"
-recipe "hadoop::conf_pseudo", "Installs hadoop-conf-pseudo and enables hadoop services"
+recipe "hadoop::conf_pseudo", "Installs hadoop in pseudo-distributed mode and enables hadoop services"
 recipe "hadoop::doc", "Installs hadoop documentation"
 recipe "hadoop::hive", "Installs hadoop's hive package"
 recipe "hadoop::pig", "Installs hadoop's pig package"

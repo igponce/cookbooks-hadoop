@@ -61,7 +61,7 @@ Recipes
 =======
 
   * hadoop - Installs hadoop from Cloudera's repo
-  * hadoop::conf_pseudo - Installs hadoop-conf-pseudo and enables hadoop services
+  * hadoop::conf_pseudo - Installs hadoop in pseudo-distributed mode and enables hadoop services
   * hadoop::doc  - Installs hadoop documentation
   * hadoop::hive - Installs hadoop's hive package
   * hadoop::pig  - Installs hadoop's pig package
@@ -72,7 +72,6 @@ Author:: Joshua Timberman (<joshua@opscode.com>)
 		 Modified by Inigo Gonzalez ( http://exocert.com )
 
 Copyright:: 2009, Opscode, Inc
-
 
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
