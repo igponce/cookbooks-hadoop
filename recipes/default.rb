@@ -31,10 +31,20 @@ end
 #  notifies :run, resources("execute[apt-get update]"), :immediately
 #end
 
-# Download and install the cd4h-repository package	
-execute "curl -s http://archive.cloudera.com/cdh4/one-click-install/lucid/amd64/cdh4-repository_1.0_all.deb > cd4rep.deb ; dpkg -i cd4rep.deb" do
-  not_if "apt-key export 'Cloudera Apt Repository'" 
+# Download and install the cd4h-repository package from cloudera quickstart instructions
+# (as seen in if node[:platform_family] == 'debian')
+
+if node[:platform_family] == 'debian'
+
+	case node[:lsb][:codename]
+	   when 'lucid' then dpkgurl   = 'http://archive.cloudera.com/cdh4/one-click-install/lucid/amd64/cdh4-repository_1.0_all.deb'
+	   when 'squeeze' then dpkgurl = 'http://archive.cloudera.com/cdh4/one-click-install/squeeze/amd64/cdh4-repository_1.0_all.deb'
+	   when 'precise' then dpkgurl = 'http://archive.cloudera.com/cdh4/one-click-install/precise/amd64/cdh4-repository_1.0_all.deb'
+	end
+
+	execute "curl -s #{dpkgurl} > cd4rep.deb ; dpkg -i cd4rep.deb" do
+	  not_if "apt-key export 'Cloudera Apt Repository'" 
+	end
 end
 
 package "hadoop"
-
