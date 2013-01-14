@@ -19,9 +19,6 @@
 
 include_recipe "java"
 
-execute "apt-get update" do
-  action :nothing
-end
 
 # Nothing to do here. CDH4 installs this automatically
 #template "/etc/apt/sources.list.d/cloudera.list" do
@@ -42,9 +39,14 @@ if node[:platform_family] == 'debian'
 	   when 'precise' then dpkgurl = 'http://archive.cloudera.com/cdh4/one-click-install/precise/amd64/cdh4-repository_1.0_all.deb'
 	end
 
-	execute "curl -s #{dpkgurl} > cd4rep.deb ; dpkg -i cd4rep.deb" do
+	execute "curl -s #{dpkgurl} > cd4rep.deb ; dpkg -i cd4rep.deb " do
 	  not_if "apt-key export 'Cloudera Apt Repository'" 
 	end
+
+	execute "apt-get update" do
+	  action :nothing
+	end
+
 end
 
 package "hadoop"
