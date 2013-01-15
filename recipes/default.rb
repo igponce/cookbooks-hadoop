@@ -41,16 +41,6 @@ if node[:platform_family] == 'debian'
 	  action :nothing
 	end
 
-	# pkgarch = execute "get debian pkg architecture" do
- #       result = command "dpkg --print-architecture"
- #       puts "************"
- #       puts result.inspect
- #       puts result
-	#    puts "************"
-	#    action :run
-	# end
-
-
 	dpkgurl = "http://archive.cloudera.com/cdh4/one-click-install/#{node[:lsb][:codename]}/amd64/cdh4-repository_1.0_all.deb"
 	cdh4keyurl = ""
 	  
@@ -64,4 +54,5 @@ if node[:platform_family] == 'debian'
 	end
 
 end
+
 package "hadoop"
