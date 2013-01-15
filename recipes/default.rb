@@ -19,34 +19,49 @@
 
 include_recipe "java"
 
-
-# Nothing to do here. CDH4 installs this automatically
-#template "/etc/apt/sources.list.d/cloudera.list" do
-#  owner "root"
-#  mode "0644"
-#  source "cloudera.list.erb"
-#  notifies :run, resources("execute[apt-get update]"), :immediately
-#end
-
 # Download and install the cd4h-repository package from cloudera quickstart instructions
-# (as seen in if node[:platform_family] == 'debian')
 
 if node[:platform_family] == 'debian'
 
-	case node[:lsb][:codename]
-	   when 'lucid' then dpkgurl   = 'http://archive.cloudera.com/cdh4/one-click-install/lucid/amd64/cdh4-repository_1.0_all.deb'
-	   when 'squeeze' then dpkgurl = 'http://archive.cloudera.com/cdh4/one-click-install/squeeze/amd64/cdh4-repository_1.0_all.deb'
-	   when 'precise' then dpkgurl = 'http://archive.cloudera.com/cdh4/one-click-install/precise/amd64/cdh4-repository_1.0_all.deb'
-	end
+    # Detect debian architecture inside a CHEF recice
+	ml = Mixlib::ShellOut.new("dpkg --print-architecture")
+	ml.run_command
+	debian_arch = ml.stdout unless ml.error!
+	puts debian_arch
 
-	execute "curl -s #{dpkgurl} > cd4rep.deb ; dpkg -i cd4rep.deb " do
-	  not_if "apt-key export 'Cloudera Apt Repository'" 
-	end
+    # Proxy setup for apt-get and curl
+    newenv_http_proxy = node["chef_client"]["http_proxy"] unless node["chef_client"]["http_proxy"].nil?
+    newenv_http_proxy.insert( newenv_http_proxy.index('http://') + 7, node["chef_client"]["http_proxy_user"] + '@' ) unless node["chef_client"]["http_proxy_user"].nil?
+    newenv_http_proxy.insert( newenv_http_proxy.index('@'), ':' + node["chef_client"]["http_proxy_pass"] ) unless node["chef_client"]["http_proxy_pass"].nil?
+
+	ENV["HTTP_PROXY"] = newenv_http_proxy unless node["chef_client"]["http_proxy"].nil?
+	ENV["http_proxy"] = newenv_http_proxy unless node["chef_client"]["http_proxy"].nil?
 
 	execute "apt-get update" do
 	  action :nothing
 	end
 
-end
+	# pkgarch = execute "get debian pkg architecture" do
+ #       result = command "dpkg --print-architecture"
+ #       puts "************"
+ #       puts result.inspect
+ #       puts result
+	#    puts "************"
+	#    action :run
+	# end
 
+
+	dpkgurl = "http://archive.cloudera.com/cdh4/one-click-install/#{node[:lsb][:codename]}/amd64/cdh4-repository_1.0_all.deb"
+	cdh4keyurl = ""
+	  
+    curl_proxyconfig = ''
+	curl_proxyconfig = "-x #{node['chef_client']['http_proxy']} -U #{node['chef_client']['http_proxy_user']}:#{node['chef_client']['http_proxy_pass']}" unless (node[:chef_client][:http_proxy].nil? || node[:chef_client][:http_proxy_user].nil? || node[:chef_client][:http_proxy_pass].nil?) 
+
+	execute "curl -s #{dpkgurl} #{curl_proxyconfig} > cd4rep.deb ; dpkg -i cd4rep.deb" do
+	  #command "echo $PWD ; curl #{dpkgurl} > cd4rep.deb ; dpkg -i cd4rep.deb ; touch /tmp/kk"
+	  #not_if "apt-key export 'Cloudera Apt Repository'" 
+	  notifies :run, resources("execute[apt-get update]"), :immediately 
+	end
+
+end
 package "hadoop"
