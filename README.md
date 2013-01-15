@@ -11,8 +11,10 @@ Requirements
 
 * Debian/Ubuntu
 
-Tested on Ubuntu 8.10, though should work on most Linux distributions,
+Tested on Ubuntu 10.4LTS, though should work on most Linux distributions,
 see `hadoop[:java_home]`.
+
+*IMPORTANT* REQUIRES a 64-bit box. CDH4 doesn't support i386 architecture. 
 
 ## Cookbooks:
 
@@ -26,6 +28,8 @@ Attributes
 * `hadoop[:uid]` - Default userid of the hadoop user.
 * `hadoop[:gid]` - Default group for the hadoop user.
 * `hadoop[:java_home]` - You will probably want to change this to match where Java is installed on your platform.
+
+In case your box
 
 You may wish to add more attributes for tuning the configuration file templates.
 
@@ -65,6 +69,7 @@ Recipes
   * hadoop::doc  - Installs hadoop documentation
   * hadoop::hive - Installs hadoop's hive package
   * hadoop::pig  - Installs hadoop's pig package
+
 License and Author
 ==================
 
@@ -72,6 +77,7 @@ Author:: Joshua Timberman (<joshua@opscode.com>)
 		 Modified by Inigo Gonzalez ( http://exocert.com )
 
 Copyright:: 2009, Opscode, Inc
+Portions Copyright:: 2013 Inigo Gonzalez
 
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
