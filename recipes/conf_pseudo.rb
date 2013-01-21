@@ -22,7 +22,7 @@ include_recipe "hadoop"
 # Cloudera distro has a package with all the built-in configuration for a pseudo-distributed node
 package "hadoop-conf-pseudo"
 
-%w{namenode secondarynamenode datanode jobtracker tasktracker}.each do |d|
+%w{hdfs-namenode hdfs-secondarynamenode hdfs-datanode jobtracker tasktracker}.each do |d|
   service "hadoop-#{d}" do
     action [ :start, :enable ]
   end
