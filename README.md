@@ -18,7 +18,20 @@ see `hadoop[:java_home]`.
 
 ## Cookbooks:
 
+
+Depends on
+==========
+
 * java
+
+Recipes
+=======
+
+  * hadoop - Installs hadoop from Cloudera's repo
+  * hadoop::conf_pseudo - Installs hadoop in pseudo-distributed mode and enables hadoop services
+  * hadoop::doc  - Installs hadoop documentation
+  * hadoop::hive - Installs hadoop's hive package
+  * hadoop::pig  - Installs hadoop's pig package
 
 Attributes
 ==========
@@ -29,9 +42,13 @@ Attributes
 * `hadoop[:gid]` - Default group for the hadoop user.
 * `hadoop[:java_home]` - You will probably want to change this to match where Java is installed on your platform.
 
-In case your box
 
 You may wish to add more attributes for tuning the configuration file templates.
+
+If you're behind a proxy, you should define the attributes:
+* node[:chef_client][:http_proxy]
+* node[:chef_client][:http_proxy_user]
+* node[:chef_client][:http_proxy_pass]
 
 Usage
 =====
@@ -61,14 +78,6 @@ in a define.
 
 [1] http://hadoop.apache.org/core/docs/current/quickstart.html
 
-Recipes
-=======
-
-  * hadoop - Installs hadoop from Cloudera's repo
-  * hadoop::conf_pseudo - Installs hadoop in pseudo-distributed mode and enables hadoop services
-  * hadoop::doc  - Installs hadoop documentation
-  * hadoop::hive - Installs hadoop's hive package
-  * hadoop::pig  - Installs hadoop's pig package
 
 License and Author
 ==================
