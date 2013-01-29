@@ -43,6 +43,10 @@ Attributes
 * `hadoop[:java_home]` - You will probably want to change this to match where Java is installed on your platform.
 
 
+* `hadoop[:format_namenode]` - Set it to true if you want to format HDFS on the namenode (don't do it on a live fs unless you know what you're doing)
+
+
+
 You may wish to add more attributes for tuning the configuration file templates.
 
 If you're behind a proxy, you should define the attributes:
